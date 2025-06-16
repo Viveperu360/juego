@@ -16,6 +16,7 @@
     <!-- Three.js library -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
+    
 
     <style>
         /* --- CSS VARIABLES AND GLOBAL STYLES (NEW ELEGANT PALETTE) --- */
@@ -168,6 +169,7 @@
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
+            text-fill-color: transparent;
         }
 
         section {
@@ -234,7 +236,7 @@
             height: calc(100vh - var(--header-height));
             padding: 20px;
             color: var(--color-white);
-            background-image: linear-gradient(rgba(10, 25, 47, 0.5), rgba(10, 25, 47, 0.8)), url('fondo.jpg');
+            background-image: linear-gradient(rgba(10, 25, 47, 0.5), rgba(10, 25, 47, 0.8)), url('https://images.pexels.com/photos/10128318/pexels-photo-10128318.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2');
             background-size: cover;
             background-position: center;
             background-attachment: fixed;
@@ -569,7 +571,7 @@
             object-fit: cover;
             border-radius: 6px;
             margin-bottom: 15px;
-            cursor: pointer; /* Add cursor pointer to indicate it's clickable */
+            cursor: pointer;
             transition: transform 0.3s;
         }
         
@@ -626,7 +628,7 @@
         }
 
         /* --- BUTTONS --- */
-        .gemini-button, .media-button, .cta-button {
+        .gemini-button, .media-button, .cta-button, #generate-poem-btn {
             background: linear-gradient(45deg, var(--color-primary), var(--color-primary-light));
             color: var(--color-white);
             border: none;
@@ -640,7 +642,7 @@
             font-size: 1rem;
             background-size: 150% 150%;
         }
-        .gemini-button:hover, .media-button:hover, .cta-button:hover {
+        .gemini-button:hover, .media-button:hover, .cta-button:hover, #generate-poem-btn:hover {
             transform: translateY(-3px);
             background-position: right center;
         }
@@ -836,30 +838,126 @@
             opacity: 0.6;
             line-height: 1.6;
         }
+
+        /* --- 9. POEM WIDGET (NEW) --- */
+        #poem-widget-container {
+            position: fixed;
+            bottom: 25px;
+            right: 25px;
+            z-index: 1002;
+        }
+
+        .poem-trigger-button {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(45deg, var(--color-primary), var(--color-primary-light));
+            border-radius: 50%;
+            border: none;
+            cursor: pointer;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .poem-trigger-button:hover {
+            transform: scale(1.1);
+            box-shadow: 0 6px 20px rgba(0,0,0,0.3);
+        }
+        .poem-trigger-button svg {
+            width: 28px;
+            height: 28px;
+            fill: var(--color-white);
+            transition: transform 0.4s ease;
+        }
+        #poem-content.open + .poem-trigger-button svg {
+            transform: rotate(135deg);
+        }
+
+
+        .poem-content {
+            position: absolute;
+            bottom: 80px;
+            right: 0;
+            width: 350px;
+            background-color: var(--color-background-light);
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            color: var(--color-text-dark);
+            padding: 20px;
+            visibility: hidden;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.4s cubic-bezier(0.19, 1, 0.22, 1);
+        }
+        .poem-content.open {
+            visibility: visible;
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .poem-content h3 {
+            font-family: var(--font-title);
+            color: var(--color-text-dark);
+            margin-bottom: 15px;
+            text-align: center;
+        }
+
+        .poem-input {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            margin-bottom: 15px;
+            font-family: var(--font-text);
+            font-size: 1rem;
+        }
+        
+        #generate-poem-btn {
+            width: 100%;
+        }
+
+        #poem-result-container {
+            margin-top: 15px;
+            padding-top: 15px;
+            border-top: 1px solid #eee;
+            min-height: 120px;
+            font-style: italic;
+            line-height: 1.6;
+            white-space: pre-wrap; /* To respect line breaks in poem */
+        }
         
         /* --- RESPONSIVE DESIGN ADJUSTMENTS --- */
         @media (max-width: 768px) {
-            .main-nav {
-                display: none; /* Hide nav links on smaller screens for now */
+            .main-nav, #historical-clock {
+                 display: none;
             }
             .header-left a {
-                display: none;
+                 display: none;
             }
             section { padding: 80px 5%; }
             .timeline::after { left: 31px; }
             .timeline-container { width: 100%; padding-left: 70px; padding-right: 25px; }
             .timeline-container.left, .timeline-container.right { left: 0%; }
             .timeline-container.left::after, .timeline-container.right::after { left: 21px; }
+
+            #poem-widget-container {
+                bottom: 15px;
+                right: 15px;
+            }
+            .poem-content {
+                width: calc(100vw - 30px);
+            }
         }
     </style>
 </head>
 <body>
     <header class="main-header">
         <div class="header-left">
-            <a href="#inicio">Vive Peru 360</a>
+            <a href="#inicio">Catedral de Lima</a>
         </div>
         <div class="header-center-logo">
-            <img src="nueva.png" alt="Logo Dinámico">
+            <img src="https://assets.adsttc.com/images/modules/projects/images/000/001/021/medium_jpg/1021_20_0_FachadaPrincipal.jpg?1580740446" alt="Logo Dinámico" onerror="this.onerror=null;this.src='https://placehold.co/130x130/2C3E50/FFFFFF?text=Logo';">
         </div>
         <div class="header-right">
             <nav class="main-nav">
@@ -887,24 +985,24 @@
     <section id="galeria">
         <h2 class="section-title">Galería Visual</h2>
         <div class="gallery-grid">
-             <div class="gallery-item" data-img-src="fachada.jpg" data-caption="Imponente fachada de estilo renacentista y neoclásico.">
-                 <img src="fachada.jpg" alt="Fachada de la Catedral">
+             <div class="gallery-item" data-img-src="https://live.staticflickr.com/65535/51295963951_e3d36a3103_b.jpg" data-caption="Imponente fachada de estilo renacentista y neoclásico.">
+                 <img src="https://live.staticflickr.com/65535/51295963951_e3d36a3103_b.jpg" alt="Fachada de la Catedral" onerror="this.onerror=null;this.src='https://placehold.co/300x350/cccccc/000000?text=Fachada';">
                  <div class="overlay"><span class="overlay-text">Fachada Principal</span></div>
             </div>
-             <div class="gallery-item" data-img-src="nave central.jpg" data-caption="La majestuosa nave central con sus bóvedas góticas tardías.">
-                 <img src="nave central.jpg" alt="Nave Central">
+             <div class="gallery-item" data-img-src="https://live.staticflickr.com/65535/51296726883_2299b80b06_b.jpg" data-caption="La majestuosa nave central con sus bóvedas góticas tardías.">
+                 <img src="https://live.staticflickr.com/65535/51296726883_2299b80b06_b.jpg" alt="Nave Central" onerror="this.onerror=null;this.src='https://placehold.co/300x350/cccccc/000000?text=Nave+Central';">
                  <div class="overlay"><span class="overlay-text">Nave Central</span></div>
             </div>
-             <div class="gallery-item" data-img-src="retablo.jpg" data-caption="Detalle de los retablos barrocos, tallados y bañados en pan de oro.">
-                 <img src="retablo.jpg" alt="Retablos y Bóvedas">
+             <div class="gallery-item" data-img-src="https://live.staticflickr.com/2823/33719813581_d04a60aa10_b.jpg" data-caption="Detalle de los retablos barrocos, tallados y bañados en pan de oro.">
+                 <img src="https://live.staticflickr.com/2823/33719813581_d04a60aa10_b.jpg" alt="Retablos y Bóvedas" onerror="this.onerror=null;this.src='https://placehold.co/300x350/cccccc/000000?text=Retablos';">
                  <div class="overlay"><span class="overlay-text">Retablos y Bóvedas</span></div>
             </div>
-             <div class="gallery-item" data-img-src="Cripta de pizarro" data-caption="La cripta donde descansan los restos del conquistador Francisco Pizarro.">
-                 <img src="Cripta de pizarro.jpg" alt="Cripta de Pizarro">
+             <div class="gallery-item" data-img-src="https://live.staticflickr.com/65535/49673891461_f9a93ce9ea_b.jpg" data-caption="La cripta donde descansan los restos del conquistador Francisco Pizarro.">
+                 <img src="https://live.staticflickr.com/65535/49673891461_f9a93ce9ea_b.jpg" alt="Cripta de Pizarro" onerror="this.onerror=null;this.src='https://placehold.co/300x350/cccccc/000000?text=Cripta';">
                  <div class="overlay"><span class="overlay-text">Cripta de Pizarro</span></div>
             </div>
-             <div class="gallery-item" data-img-src="vista nocturna.jpg" data-caption="La Catedral iluminada, un faro de historia en la noche limeña.">
-                 <img src="vista nocturna.jpg" alt="Vista Nocturna">
+             <div class="gallery-item" data-img-src="https://live.staticflickr.com/65535/50864703758_6824a7b738_b.jpg" data-caption="La Catedral iluminada, un faro de historia en la noche limeña.">
+                 <img src="https://live.staticflickr.com/65535/50864703758_6824a7b738_b.jpg" alt="Vista Nocturna" onerror="this.onerror=null;this.src='https://placehold.co/300x350/cccccc/000000?text=Vista+Nocturna';">
                  <div class="overlay"><span class="overlay-text">Vista Nocturna</span></div>
             </div>
         </div>
@@ -912,7 +1010,7 @@
 
     <div id="imageModal" class="modal">
         <div class="modal-content-inner">
-            <span class="close close-image-modal">×</span>
+            <span class="close close-image-modal">&times;</span>
             <img class="modal-content" id="modalImage" alt="Imagen ampliada de la galería">
             <div id="modalCaption" class="modal-caption"></div>
         </div>
@@ -920,7 +1018,7 @@
 
     <div id="geminiModal" class="modal">
         <div class="gemini-modal-content">
-            <span class="close close-gemini-modal">×</span>
+            <span class="close close-gemini-modal">&times;</span>
             <h3 id="geminiModalTitle"></h3>
             <div id="geminiModalResult"><div class="loader"></div></div>
         </div>
@@ -931,28 +1029,28 @@
         <div class="timeline">
             <div class="timeline-container left">
                 <div class="timeline-content">
-                    <img src="francisco.jpg" alt="Fundación de Lima">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/1c/Fundaci%C3%B3n_de_Lima.jpg/800px-Fundaci%C3%B3n_de_Lima.jpg" alt="Fundación de Lima" onerror="this.onerror=null;this.src='https://placehold.co/400x180/cccccc/000000?text=Fundación+de+Lima';">
                     <h3>1535</h3>
                     <p>Francisco Pizarro coloca la primera piedra, iniciando la construcción de la primera iglesia mayor en la recién fundada Ciudad de los Reyes.</p>
                 </div>
             </div>
             <div class="timeline-container right">
                 <div class="timeline-content">
-                    <img src="destruccion.jpg" alt="Terremoto de 1746">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/4/4b/Terremoto_de_Lima_1746.jpg" alt="Terremoto de 1746" onerror="this.onerror=null;this.src='https://placehold.co/400x180/cccccc/000000?text=Terremoto';">
                     <h3>1746</h3>
                     <p>Un devastador terremoto destruye gran parte de la catedral. Su reconstrucción, liderada por el jesuita Juan Rehr, definirá su apariencia actual.</p>
                 </div>
             </div>
             <div class="timeline-container left">
                 <div class="timeline-content">
-                     <img src="cate mejorada.jpg" alt="Torres neoclásicas">
+                     <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/23/Towers_of_the_Cathedral_of_Lima%2C_Peru.jpg/800px-Towers_of_the_Cathedral_of_Lima%2C_Peru.jpg" alt="Torres neoclásicas" onerror="this.onerror=null;this.src='https://placehold.co/400x180/cccccc/000000?text=Torres';">
                     <h3>1797</h3>
                     <p>Se concluyen las torres neoclásicas, diseñadas por Ignacio Martorell, que coronan la fachada con su característico estilo hasta el día de hoy.</p>
                 </div>
             </div>
               <div class="timeline-container right">
                 <div class="timeline-content">
-                     <img src="Cripta.jpg" alt="Restos de Pizarro">
+                     <img src="https://www.biografiasyvidas.com/biografia/p/fotos/pizarro_francisco_2.jpg" alt="Restos de Pizarro" onerror="this.onerror=null;this.src='https://placehold.co/400x180/cccccc/000000?text=Restos+de+Pizarro';">
                     <h3>1977</h3>
                     <p>Científicos confirman la autenticidad de los restos de Francisco Pizarro, hallados en una cripta, consolidando un capítulo clave de su historia.</p>
                 </div>
@@ -965,7 +1063,7 @@
         <div class="details-grid">
             <div class="detail-item">
                 <div class="detail-image-container">
-                    <img src="altar.jpg" alt="Altar Mayor">
+                    <img src="https://live.staticflickr.com/4311/35926578031_0c52bb1667_b.jpg" alt="Altar Mayor" onerror="this.onerror=null;this.src='https://placehold.co/320x400/cccccc/000000?text=Altar+Mayor';">
                 </div>
                 <h3>El Altar Mayor</h3>
                 <p>Siglo XVIII | Neoclásico</p>
@@ -973,7 +1071,7 @@
             </div>
             <div class="detail-item">
                 <div class="detail-image-container">
-                    <img src="silleria.jpg" alt="Sillería del Coro">
+                    <img src="https://live.staticflickr.com/65535/51297530665_92e4de4b47_b.jpg" alt="Sillería del Coro" onerror="this.onerror=null;this.src='https://placehold.co/320x400/cccccc/000000?text=Sillería+del+Coro';">
                 </div>
                 <h3>Sillería del Coro</h3>
                 <p>Siglo XVII | Barroco</p>
@@ -981,7 +1079,7 @@
             </div>
             <div class="detail-item">
                 <div class="detail-image-container">
-                    <img src="https://live.staticflickr.com/3931/15313936310_63364f899e_b.jpg" alt="Puerta del Perdón">
+                    <img src="https://live.staticflickr.com/3931/15313936310_63364f899e_b.jpg" alt="Puerta del Perdón" onerror="this.onerror=null;this.src='https://placehold.co/320x400/cccccc/000000?text=Puerta+del+Perdón';">
                 </div>
                 <h3>Puerta del Perdón</h3>
                 <p>Siglo XVII | Renacimiento</p>
@@ -1027,7 +1125,7 @@
         <div class="map-container">
             <div class="map-text">
                 <h2 class="section-title">En el Corazón de Lima</h2>
-                <img src="vista aerea.jpg" alt="Vista aérea de la Plaza Mayor">
+                <img src="https://i.imgur.com/kQJ2M9H.jpg" alt="Vista aérea de la Plaza Mayor" onerror="this.onerror=null;this.src='https://placehold.co/400x250/cccccc/000000?text=Plaza+Mayor';">
                 <p style="margin-bottom: 30px; line-height: 1.7; font-size: 1.1rem;">La Basílica Catedral Metropolitana de Lima y Primada del Perú se ubica en el lado este de la Plaza Mayor, el epicentro histórico y cultural de la capital peruana.</p>
                 <a href="https://www.google.com/maps/dir//Catedral+de+Lima,+Jir%C3%B3n+Carabaya,+Lima+15001" target="_blank" class="cta-button">
                     ¿CÓMO LLEGAR?
@@ -1041,32 +1139,50 @@
     </section>
 
     <footer>
-        <img src="https://cdn.teleticket.com.pe/especiales/activandocultura/images/logos-ministerio-de-cultura.png" alt="Logo Ministerio de Cultura" class="footer-logo">
+        <img src="https://cdn.teleticket.com.pe/especiales/activandocultura/images/logos-ministerio-de-cultura.png" alt="Logo Ministerio de Cultura" class="footer-logo" onerror="this.onerror=null;this.src='https://placehold.co/180x50/2C3E50/FFFFFF?text=Logo+Ministerio';">
         <div class="social-links">
             <div class="social-link-item">
-                <a href="#" title="Facebook">
+                <a href="https://www.facebook.com/minculturape" target="_blank" rel="noopener noreferrer" title="Facebook">
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M22 12c0-5.523-4.477-10-10-10S2 6.477 2 12c0 4.991 3.657 9.128 8.438 9.878v-6.987h-2.54V12h2.54V9.797c0-2.506 1.492-3.89 3.777-3.89 1.094 0 2.238.195 2.238.195v2.46h-1.26c-1.243 0-1.63.771-1.63 1.562V12h2.773l-.443 2.891h-2.33V21.878A10.001 10.001 0 0 0 22 12z"></path></svg>
                 </a>
                 <span>Facebook</span>
             </div>
             <div class="social-link-item">
-                <a href="#" title="Instagram">
+                <a href="https://www.instagram.com/minculturape" target="_blank" rel="noopener noreferrer" title="Instagram">
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.85s-.012 3.584-.07 4.85c-.148 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.85-.07-3.252-.148-4.771-1.691-4.919-4.919-.058-1.265-.069-1.645-.069-4.85s.012-3.584.07-4.85c.148-3.225 1.664-4.771 4.919-4.919 1.266-.057 1.644-.07 4.85-.07zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948s-.014-3.667-.072-4.947c-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.162 6.162 6.162 6.162-2.759 6.162-6.162-2.759-6.162-6.162-6.162zM12 16c-2.209 0-4-1.79-4-4s1.791-4 4-4 4 1.79 4 4-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"></path></svg>
                 </a>
                 <span>Instagram</span>
             </div>
             <div class="social-link-item">
-                <a href="#" title="Visita Virtual">
+                <a href="#modelo-3d" title="Visita Virtual">
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zM4 12c0-2.42 1.18-4.57 3-5.96v11.92c-1.82-1.39-3-3.54-3-5.96zm2.02 7.02c.81.63 1.76 1.14 2.8 1.45V4.53c-1.04.31-1.99.82-2.8 1.45l-.02 14.04zm7.96 1.45c1.04-.31 1.99-.82 2.8-1.45V5.98c-.81-.63-1.76-1.14-2.8-1.45v14.94zM17 17.96v-11.92c1.82 1.39 3 3.54 3 5.96s-1.18 4.57-3 5.96z"></path></svg>
                 </a>
                 <span>Visita Virtual</span>
             </div>
         </div>
         <p class="footer-credits">
-            Pagina web diseñada y desarrollada por Vive Peru 360. <br>
-            Las imagenes utilizadas son propiedad de sus respectivos autores y se utilizan con fines demostrativos e ilustrativos. Todos los derechos reservados © 2025.
+            Página web diseñada y desarrollada con fines demostrativos.<br>
+            Las descripciones históricas y arquitectónicas han sido generadas con la asistencia de la IA de Google. <br>
+            Las imágenes utilizadas son propiedad de sus respectivos autores y se utilizan con fines ilustrativos. <br>
+            Todos los derechos reservados © 2024.
         </p>
     </footer>
+
+    <!-- POEM WIDGET (NEW) -->
+    <div id="poem-widget-container">
+        <div class="poem-content" id="poem-content">
+            <h3>Pide un Deseo Poético</h3>
+            <input type="text" id="poem-keyword-input" class="poem-input" placeholder="Escribe una palabra (ej: fe, historia...)">
+            <button id="generate-poem-btn">✨ Generar Poema</button>
+            <div id="poem-result-container">
+                <p>Aquí nacerá la poesía...</p>
+            </div>
+        </div>
+        <button class="poem-trigger-button" id="poem-trigger-btn" title="Pide un Deseo">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20.7,5.2a1.3,1.3,0,0,0-1.8-1.8L12.4,9.9,9.3,8.2A2.3,2.3,0,0,0,6.5,9L2,11.3V18a1,1,0,0,0,1,1H18.7L22,6.5A2.3,2.3,0,0,0,20.7,5.2ZM4,12.7l2.5-1.1,5.3,2.9L4,17.4Zm13.7,5.3H5.6L13.4,13l6.3,3.4Z"/></svg>
+        </button>
+    </div>
+
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
@@ -1100,11 +1216,14 @@
                     let caption = '';
                     if (this.classList.contains('gallery-item')) {
                         caption = this.dataset.caption;
-                    } else {
+                    } 
+                    else {
                         const content = this.closest('.timeline-content');
-                        const year = content.querySelector('h3').innerText;
-                        const desc = content.querySelector('p').innerText;
-                        caption = `${year}: ${desc}`;
+                        if(content) {
+                            const year = content.querySelector('h3').innerText;
+                            const desc = content.querySelector('p').innerText;
+                            caption = `${year}: ${desc}`;
+                        }
                     }
 
                     modalImg.src = this.dataset.imgSrc || this.src;
@@ -1129,22 +1248,43 @@
             });
             document.querySelector('.close-gemini-modal').onclick = () => closeModal(geminiModal);
 
+            // --- Poem Widget Logic (NEW) ---
+            const poemWidget = document.getElementById('poem-content');
+            const poemTriggerBtn = document.getElementById('poem-trigger-btn');
+            const generatePoemBtn = document.getElementById('generate-poem-btn');
+            const poemInput = document.getElementById('poem-keyword-input');
+            const poemResultContainer = document.getElementById('poem-result-container');
+
+            poemTriggerBtn.addEventListener('click', () => {
+                poemWidget.classList.toggle('open');
+            });
+
+            generatePoemBtn.addEventListener('click', () => {
+                const keyword = poemInput.value.trim();
+                if (keyword === "") {
+                    poemResultContainer.innerHTML = "<p>Por favor, escribe una palabra para inspirar al bardo.</p>";
+                    return;
+                }
+                const prompt = `Actúa como un bardo inspirado por la majestuosidad de la Catedral de Lima. Escribe un poema corto y evocador (4 a 6 versos) sobre el concepto de "${keyword}". El poema debe reflejar la atmósfera de historia, fe y arte del lugar.`;
+                poemResultContainer.innerHTML = '<div class="loader"></div>';
+                callGemini(prompt, poemResultContainer);
+            });
+
+
             // Close modals on outside click
             window.onclick = function(event) {
                 if (event.target == imageModal) closeModal(imageModal);
                 if (event.target == geminiModal) closeModal(geminiModal);
             }
             
-            // --- Reusable Gemini API Fetch Function ---
+            // --- Reusable Gemini API Fetch Function (REAL IMPLEMENTATION) ---
             async function callGemini(prompt, resultElement) {
-                const apiKey = "AIzaSyA_ToV5kLoY2hsN3kcP31XejUItnmlePhs"; // NEWEST API key from user
-                const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash-latest:generateContent?key=${apiKey}`; // Corrected model
+                const apiKey = "AIzaSyD5Sj3ypZWlrRg5rPxQl4gbmzUIVRFvMJo"; // User-provided API Key
+                const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash-latest:generateContent?key=${apiKey}`;
                 
                 const payload = {
                     contents: [{
-                        parts: [{
-                            text: prompt
-                        }]
+                        parts: [{ text: prompt }]
                     }]
                 };
 
@@ -1170,7 +1310,7 @@
                         const text = result.candidates[0].content.parts[0].text;
                         resultElement.innerHTML = `<p>${text.replace(/\n/g, '<br>')}</p>`;
                     } else {
-                        console.error("Respuesta inválida o bloqueada por la API.", result);
+                        console.error("Invalid response or blocked by API.", result);
                         let errorMessage = "La respuesta de la IA no pudo ser procesada.";
                         if(result.promptFeedback && result.promptFeedback.blockReason){
                            errorMessage += ` Razón: ${result.promptFeedback.blockReason}`;
@@ -1179,14 +1319,15 @@
                     }
 
                 } catch (error) {
-                    console.error("Error al llamar a la API de Gemini:", error);
-                    let finalErrorMsg = `<p style="color: #c0392b;">Lo sentimos, ocurrió un error.<br><small>Detalle: ${error.message}</small></p>`;
+                    console.error("Error calling Gemini API:", error);
+                    let finalErrorMsg = `<p style="color: #c0392b;">Lo sentimos, ocurrió un error de conexión con el servicio de IA.<br><small>Detalle: ${error.message}</small></p>`;
                     if (error.message.includes('Failed to fetch')) {
                         finalErrorMsg += `<p style="font-size: 0.8rem; margin-top: 10px; color: #34495E;"><b>Nota:</b> Si estás ejecutando este archivo localmente, este error puede ser causado por las políticas de seguridad del navegador (CORS). Intenta usar una extensión como "Live Server" en tu editor de código para solucionarlo.</p>`;
                     }
                     resultElement.innerHTML = finalErrorMsg;
                 }
             }
+
 
             // --- Multimedia Guide Logic ---
             const btnVideo = document.getElementById('btn-video');
@@ -1201,25 +1342,29 @@
                 audioLangOptions.classList.remove('visible');
                 videoPlaceholder.classList.remove('visible');
                 audioPlaceholder.classList.remove('visible');
+                videoPlaceholder.innerHTML = "";
+                audioPlaceholder.innerHTML = "";
             }
 
             btnVideo.addEventListener('click', () => {
+                const wasVisible = videoLangOptions.classList.contains('visible');
                 hideAllMedia();
-                videoLangOptions.classList.add('visible');
+                if (!wasVisible) videoLangOptions.classList.add('visible');
             });
 
             btnAudio.addEventListener('click', () => {
+                const wasVisible = audioLangOptions.classList.contains('visible');
                 hideAllMedia();
-                audioLangOptions.classList.add('visible');
+                if(!wasVisible) audioLangOptions.classList.add('visible');
             });
 
             document.querySelectorAll('.language-options button').forEach(button => {
                 button.addEventListener('click', function() {
                     const type = this.dataset.type;
                     const lang = this.dataset.lang;
-                    hideAllMedia();
                     
                     if (type === 'video') {
+                        videoLangOptions.classList.remove('visible');
                         videoPlaceholder.classList.add('visible');
                         if (lang === 'es') {
                             videoPlaceholder.innerHTML = `
@@ -1236,22 +1381,22 @@
                             `;
                         } else {
                              videoPlaceholder.innerHTML = `
-                                <p style="text-align:center; margin-bottom:15px; font-size:1.1rem; font-weight:bold;">Video en Inglés</p>
-                                <div style="width:100%; height: 400px; background: #ddd; display:flex; align-items:center; justify-content:center; border-radius:8px;">
-                                   <span style="color: #333;">Espacio para el video en inglés.</span>
+                                <p style="text-align:center; margin-bottom:15px; font-size:1.1rem; font-weight:bold;">Video en Inglés (Placeholder)</p>
+                                <div class="video-container" style="background-color: #ddd; display:flex; align-items:center; justify-content:center;">
+                                   <span style="color: #333;">Contenido de video en inglés no disponible.</span>
                                 </div>`;
                        }
                     } else if (type === 'audio') {
+                        audioLangOptions.classList.remove('visible');
                         audioPlaceholder.classList.add('visible');
-                        const audioFile = lang === 'es' ? 'catedral-es.mp3' : 'cathedral-en.mp3';
                         audioPlaceholder.innerHTML = `
                             <p style="text-align:center; margin-bottom:15px; font-size:1.1rem; font-weight:bold;">Audio en ${lang === 'es' ? 'Español' : 'Inglés'}</p>
                             <audio controls style="width: 100%;">
-                                <source src="${audioFile}" type="audio/mpeg">
+                                <source src="#" type="audio/mpeg">
                                 Tu navegador no soporta la etiqueta de audio.
                             </audio>
                             <p style="text-align:center; margin-top:15px; font-size:0.9rem; color:#555;">
-                                 <b>Nota:</b> Este es un marcador de posición. El archivo de audio debe estar disponible en el servidor para funcionar.
+                                <b>Nota:</b> Este es un marcador de posición. El archivo de audio debe estar disponible en el servidor.
                             </p>
                         `;
                     }
@@ -1260,10 +1405,13 @@
 
              // --- 3D Model Logic (Lazy Loading) ---
             const modelSection = document.getElementById('modelo-3d');
-            if (modelSection) {
+            let isModelInitialized = false;
+
+            if (modelSection && typeof THREE !== 'undefined') {
                 const observer = new IntersectionObserver((entries, obs) => {
-                    if (entries[0].isIntersecting) {
+                    if (entries[0].isIntersecting && !isModelInitialized) {
                         init3DModel();
+                        isModelInitialized = true;
                         obs.unobserve(modelSection);
                     }
                 }, { threshold: 0.1 });
@@ -1272,7 +1420,7 @@
 
             function init3DModel() {
                 const container = document.getElementById('three-canvas-container');
-                if (!container || !THREE) return;
+                if (!container) return;
 
                 // Scene, Camera, Renderer
                 const scene = new THREE.Scene();
@@ -1351,8 +1499,14 @@
                     group.add(cross);
                     group.position.x = x;
                     group.position.z = 50;
-                    group.castShadow = true;
-                    group.receiveShadow = true;
+                    
+                    group.traverse(function(node) {
+                        if (node.isMesh) {
+                            node.castShadow = true;
+                            node.receiveShadow = true;
+                        }
+                    });
+
                     return group;
                 }
                 cathedral.add(createTower(-35));
