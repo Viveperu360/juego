@@ -385,7 +385,7 @@
             opacity: 1;
         }
         
-        /* --- MODALS (for Gallery and Gemini) --- */
+        /* --- MODALS (for Media and Gemini) --- */
         .modal {
             visibility: hidden;
             opacity: 0;
@@ -421,18 +421,20 @@
             opacity: 1;
         }
 
-        /* Centering the gallery modal content */
-        #imageModal .modal-content-inner {
+        .modal-content-inner {
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
         }
 
-        .modal-content {
-             width: auto;
-            max-width: 90%;
+        #media-container video, 
+        #media-container img {
+            width: auto;
+            max-width: 90vw;
             max-height: 80vh;
+            display: block;
+            border-radius: 8px;
         }
         
         .modal-caption {
@@ -466,22 +468,7 @@
             min-height: 100px;
         }
 
-        .close-image-modal {
-            position: absolute;
-            top: -10px;
-            right: 0px;
-            color: #fff;
-            font-size: 48px;
-            font-weight: bold;
-            transition: 0.3s;
-            cursor: pointer;
-            line-height: 1;
-            text-shadow: 0px 2px 5px rgba(0,0,0,0.5);
-        }
-        .close-image-modal:hover {
-            color: #ccc;
-        }
-
+        .close-media-modal,
         .close-gemini-modal {
             position: absolute;
             top: 15px;
@@ -492,7 +479,17 @@
             transition: 0.3s;
             cursor: pointer;
             line-height: 1;
+            z-index: 10;
         }
+
+        .close-media-modal {
+            color: #fff;
+            top: -10px;
+            right: 0px;
+            font-size: 48px;
+            text-shadow: 0px 2px 5px rgba(0,0,0,0.5);
+        }
+        .close-media-modal:hover { color: #ccc; }
         .close-gemini-modal:hover,
         .close-gemini-modal:focus {
             color: var(--color-text-dark);
@@ -565,18 +562,14 @@
             border: 1px solid rgba(255,255,255,0.1);
         }
         
-        .timeline-content img {
+        .timeline-content video { /* UPDATED from img */
             width: 100%;
             height: 180px;
             object-fit: cover;
             border-radius: 6px;
             margin-bottom: 15px;
             cursor: pointer;
-            transition: transform 0.3s;
-        }
-        
-        .timeline-content img:hover {
-            transform: scale(1.05);
+            background-color: #000;
         }
         
         .timeline-content h3 { font-size: 1.8rem; margin-bottom: 10px; color: var(--color-text-light);}
@@ -859,17 +852,19 @@
             align-items: center;
             box-shadow: 0 4px 15px rgba(0,0,0,0.2);
             transition: transform 0.3s ease, box-shadow 0.3s ease;
+            padding: 12px;
         }
         .poem-trigger-button:hover {
             transform: scale(1.1);
             box-shadow: 0 6px 20px rgba(0,0,0,0.3);
         }
-        .poem-trigger-button img { /* Changed from svg to img */
-            width: 32px; /* Adjusted size for the new image */
-            height: 32px;
+        .poem-trigger-button img { 
+            width: 100%;
+            height: 100%;
             transition: transform 0.4s ease;
+            filter: brightness(0) invert(1);
         }
-        #poem-content.open + .poem-trigger-button img { /* Changed from svg to img */
+        #poem-content.open + .poem-trigger-button img { 
             transform: rotate(135deg);
         }
 
@@ -956,7 +951,7 @@
             <a href="#inicio">Vive Peru 360</a>
         </div>
         <div class="header-center-logo">
-            <img src="nueva.png" onerror="this.onerror=null;this.src='https://placehold.co/130x130/2C3E50/FFFFFF?text=Logo';">
+            <img src="nueva.png" alt="Logo Dinámico" onerror="this.onerror=null;this.src='https://placehold.co/130x130/2C3E50/FFFFFF?text=Logo';">
         </div>
         <div class="header-right">
             <nav class="main-nav">
@@ -984,34 +979,34 @@
     <section id="galeria">
         <h2 class="section-title">Galería Visual</h2>
         <div class="gallery-grid">
-             <div class="gallery-item" data-img-src="fachada.jpg" data-caption="Construida en piedra clara, presenta dos torres simétricas con cúpulas de pizarra y una portada central decorada con columnas, esculturas y relieves. Es un símbolo del poder religioso y colonial en el corazón histórico de la ciudad.">
+             <div class="gallery-item" data-img-src="fachada.jpg" data-caption="La fachada de la Catedral de Lima combina elementos renacentistas con torres neoclásicas simétricas, destacando por su sobriedad, armonía y monumentalidad frente a la Plaza Mayor.">
                  <img src="fachada.jpg" alt="Fachada de la Catedral" onerror="this.onerror=null;this.src='https://placehold.co/300x350/cccccc/000000?text=Fachada';">
                  <div class="overlay"><span class="overlay-text">Fachada Principal</span></div>
             </div>
-             <div class="gallery-item" data-img-src="cate interior.jpg" data-caption="El interior de la Catedral de Lima impresiona por su majestuosidad colonial. Destacan los retablos dorados de estilo barroco y las altas bóvedas sostenidas por arcos elegantes, que crean un ambiente solemne y monumental. Cada detalle refleja la riqueza artística y religiosa del virreinato.">
+             <div class="gallery-item" data-img-src="cate interior.jpg" data-caption="El interior de la catedral deslumbra con una combinación de estilo barroco y neoclásico, reflejada en sus amplias naves, columnas altas y decoración solemne.">
                  <img src="cate interior.jpg" alt="Nave Central" onerror="this.onerror=null;this.src='https://placehold.co/300x350/cccccc/000000?text=Nave+Central';">
                  <div class="overlay"><span class="overlay-text">Vista interior</span></div>
             </div>
-             <div class="gallery-item" data-img-src="retablo.jpg" data-caption="Los retablos y bóvedas de la Catedral de Lima reflejan el esplendor del arte colonial. Los retablos, ricamente dorados y tallados, destacan por su detalle barroco, mientras que las altas bóvedas con arcos elegantes aportan verticalidad y solemnidad al espacio sagrado.">
+             <div class="gallery-item" data-img-src="retablo.jpg" data-caption="Los retablos dorados de estilo barroco contrastan con las bóvedas elevadas y luminosas, creando un ambiente sagrado y monumental.">
                  <img src="retablo.jpg" alt="Retablos y Bóvedas" onerror="this.onerror=null;this.src='https://placehold.co/300x350/cccccc/000000?text=Retablos';">
                  <div class="overlay"><span class="overlay-text">Retablos y Bóvedas</span></div>
             </div>
-             <div class="gallery-item" data-img-src="Cripta de pizarro.jpg" data-caption="La cripta de Pizarro, ubicada en la Catedral de Lima, permanece en penumbra y silencio por la noche. Su atmósfera es solemne, con muros de piedra antigua y una tenue iluminación que resalta el féretro donde reposan sus restos.">
+             <div class="gallery-item" data-img-src="cripta de pizarro.jpg" data-caption="La cripta de Francisco Pizarro, ubicada en el interior de la catedral, conserva sus restos en un espacio solemne decorado con mosaicos e inscripciones históricas.">
                  <img src="Cripta de pizarro.jpg" alt="Cripta de Pizarro" onerror="this.onerror=null;this.src='https://placehold.co/300x350/cccccc/000000?text=Cripta';">
                  <div class="overlay"><span class="overlay-text">Cripta de Pizarro</span></div>
             </div>
-             <div class="gallery-item" data-img-src="vista nocturna.jpg" data-caption="La Catedral de Lima, de noche, luce imponente y serena, iluminada con luces cálidas que realzan su fachada y torres. Desde la Plaza Mayor, destaca como un símbolo histórico y espiritual en el corazón de la ciudad.">
+             <div class="gallery-item" data-img-src="vista nocturna.jpg" data-caption="Iluminada por luces cálidas, la Catedral de Lima adquiere por la noche un aspecto majestuoso y sereno que resalta su imponente arquitectura en el corazón del centro histórico.">
                  <img src="vista nocturna.jpg" alt="Vista Nocturna" onerror="this.onerror=null;this.src='https://placehold.co/300x350/cccccc/000000?text=Vista+Nocturna';">
                  <div class="overlay"><span class="overlay-text">Vista Nocturna</span></div>
             </div>
         </div>
     </section>
 
-    <div id="imageModal" class="modal">
+    <div id="mediaModal" class="modal">
         <div class="modal-content-inner">
-            <span class="close close-image-modal">&times;</span>
-            <img class="modal-content" id="modalImage" alt="Imagen ampliada de la galería">
-            <div id="modalCaption" class="modal-caption"></div>
+            <span class="close close-media-modal">&times;</span>
+            <div id="media-container"></div>
+            <div id="mediaCaption" class="modal-caption"></div>
         </div>
     </div>
 
@@ -1024,32 +1019,32 @@
     </div>
 
     <section id="historia">
-        <h2 class="section-title">Historia en Imágenes</h2>
+        <h2 class="section-title">Vive la historia</h2>
         <div class="timeline">
             <div class="timeline-container left">
                 <div class="timeline-content">
-                    <img src="francisco.jpg" alt="Fundación de Lima" onerror="this.onerror=null;this.src='https://placehold.co/400x180/cccccc/000000?text=Fundación+de+Lima';">
+                    <video class="timeline-video" loop muted playsinline src="inicio.mp4"></video>
                     <h3>1535</h3>
                     <p>Francisco Pizarro coloca la primera piedra, iniciando la construcción de la primera iglesia mayor en la recién fundada Ciudad de los Reyes.</p>
                 </div>
             </div>
             <div class="timeline-container right">
                 <div class="timeline-content">
-                    <img src="destruccion.jpg" alt="Terremoto de 1746" onerror="this.onerror=null;this.src='https://placehold.co/400x180/cccccc/000000?text=Terremoto';">
+                    <video class="timeline-video" loop muted playsinline src="Terremoto_en_Lima_siglo_XVIII.mp4" poster="https://placehold.co/400x180/2c3e50/ffffff?text=Video+1746"></video>
                     <h3>1746</h3>
                     <p>Un devastador terremoto destruye gran parte de la catedral. Su reconstrucción, liderada por el jesuita Juan Rehr, definirá su apariencia actual.</p>
                 </div>
             </div>
             <div class="timeline-container left">
                 <div class="timeline-content">
-                     <img src="cate mejorada.jpg" alt="Torres neoclásicas" onerror="this.onerror=null;this.src='https://placehold.co/400x180/cccccc/000000?text=Torres';">
+                     <video class="timeline-video" loop muted playsinline src="Video_de_Catedral_de_Lima.mp4" poster="https://placehold.co/400x180/2c3e50/ffffff?text=Video+1797"></video>
                     <h3>1797</h3>
                     <p>Se concluyen las torres neoclásicas, diseñadas por Ignacio Martorell, que coronan la fachada con su característico estilo hasta el día de hoy.</p>
                 </div>
             </div>
               <div class="timeline-container right">
                 <div class="timeline-content">
-                     <img src="Cripta.jpg" alt="Restos de Pizarro" onerror="this.onerror=null;this.src='https://placehold.co/400x180/cccccc/000000?text=Restos+de+Pizarro';">
+                     <video class="timeline-video" loop muted playsinline src="Pizarro_s_Tomb_Discovery_Video.mp4" poster="https://placehold.co/400x180/2c3e50/ffffff?text=Video+1977"></video>
                     <h3>1977</h3>
                     <p>Científicos confirman la autenticidad de los restos de Francisco Pizarro, hallados en una cripta, consolidando un capítulo clave de su historia.</p>
                 </div>
@@ -1088,7 +1083,7 @@
     </section>
     
     <section id="modelo-3d">
-        <h2 class="section-title">Explora el Modelo 3D</h2>
+        <h2 class="section-title">Explora el Modelo 3D (beta)</h2>
         <p class="section-description">
             Usa tu ratón o tus dedos para rotar, arrastrar y hacer zoom. Descubre una representación artística de la Catedral de Lima.
         </p>
@@ -1160,8 +1155,9 @@
             </div>
         </div>
         <p class="footer-credits">
-            Pagina web diseñada y desarrollada por Vive Peru 360.<br>
-            Las imagenes utilizadas son propiedad de sus respectivos autores y se utilizan con fines demostrativos e ilustrativos. Todos los derechos reservados © 2025. <br>
+            Página web diseñada y desarrollada por Vive Peru 360.<br>
+            Las imágenes utilizadas son propiedad de sus respectivos autores y se utilizan con fines ilustrativos. <br>
+            Todos los derechos reservados © 2025.
         </p>
     </footer>
 
@@ -1176,7 +1172,7 @@
             </div>
         </div>
         <button class="poem-trigger-button" id="poem-trigger-btn" title="Pide un Deseo">
-             <img src="pluma.png" alt="Pide un Deseo">
+             <img src="https://images.icon-icons.com/2070/PNG/512/feather_icon_125683.png" alt="Pide un Deseo">
         </button>
     </div>
 
@@ -1194,7 +1190,7 @@
             });
 
             // --- General Modal Handling ---
-            const imageModal = document.getElementById('imageModal');
+            const mediaModal = document.getElementById('mediaModal');
             const geminiModal = document.getElementById('geminiModal');
             
             function openModal(modal) {
@@ -1203,32 +1199,52 @@
 
             function closeModal(modal) {
                 modal.classList.remove('visible');
+                const mediaContainer = document.getElementById('media-container');
+                if (mediaContainer) {
+                    mediaContainer.innerHTML = ''; // Stop video playback when closing
+                }
             }
 
-            // --- Gallery Modal Logic ---
-            const modalImg = document.querySelector('#imageModal .modal-content');
-            const captionText = document.getElementById('modalCaption');
-            document.querySelectorAll('.gallery-item, .timeline-content img').forEach(item => {
-                item.addEventListener('click', function() {
-                    let caption = '';
-                    if (this.classList.contains('gallery-item')) {
-                        caption = this.dataset.caption;
-                    } 
-                    else {
-                        const content = this.closest('.timeline-content');
-                        if(content) {
-                            const year = content.querySelector('h3').innerText;
-                            const desc = content.querySelector('p').innerText;
-                            caption = `${year}: ${desc}`;
-                        }
-                    }
+            // --- Media Modal (for Gallery Images and Timeline Videos) ---
+            const mediaContainer = document.getElementById('media-container');
+            const mediaCaption = document.getElementById('mediaCaption');
 
-                    modalImg.src = this.dataset.imgSrc || this.src;
-                    captionText.innerHTML = caption;
-                    openModal(imageModal);
+            document.querySelectorAll('.gallery-item').forEach(item => {
+                item.addEventListener('click', function() {
+                    mediaContainer.innerHTML = ''; // Clear previous content
+
+                    const img = document.createElement('img');
+                    img.src = this.dataset.imgSrc || this.querySelector('img').src;
+                    img.alt = this.dataset.caption;
+                    mediaContainer.appendChild(img);
+                    
+                    mediaCaption.innerText = this.dataset.caption;
+                    openModal(mediaModal);
                 });
             });
-            document.querySelector('.close-image-modal').onclick = () => closeModal(imageModal);
+
+            document.querySelectorAll('.timeline-video').forEach(video => {
+                video.addEventListener('click', function() {
+                    mediaContainer.innerHTML = '';
+
+                    const videoClone = document.createElement('video');
+                    videoClone.src = this.src;
+                    videoClone.controls = true;
+                    videoClone.autoplay = true;
+                    videoClone.loop = true;
+                    mediaContainer.appendChild(videoClone);
+
+                    const content = this.closest('.timeline-content');
+                    const year = content.querySelector('h3').innerText;
+                    const desc = content.querySelector('p').innerText;
+                    mediaCaption.innerText = `${year}: ${desc}`;
+                    
+                    openModal(mediaModal);
+                });
+            });
+
+
+            document.querySelector('.close-media-modal').onclick = () => closeModal(mediaModal);
 
             // --- Gemini Modal Logic ---
             const geminiModalTitle = document.getElementById('geminiModalTitle');
@@ -1268,15 +1284,30 @@
             });
 
 
+            // --- Timeline Video Hover Logic ---
+            document.querySelectorAll('.timeline-video').forEach(video => {
+                const observer = new IntersectionObserver((entries) => {
+                    entries.forEach(entry => {
+                        if (entry.isIntersecting) {
+                            video.play().catch(e => { /* Ignore autoplay errors */ });
+                        } else {
+                            video.pause();
+                        }
+                    });
+                }, { threshold: 0.5 }); 
+
+                observer.observe(video);
+            });
+
             // Close modals on outside click
             window.onclick = function(event) {
-                if (event.target == imageModal) closeModal(imageModal);
+                if (event.target == mediaModal) closeModal(mediaModal);
                 if (event.target == geminiModal) closeModal(geminiModal);
             }
             
-            // --- Reusable Gemini API Fetch Function (REAL IMPLEMENTATION) ---
+            // --- Reusable Gemini API Fetch Function ---
             async function callGemini(prompt, resultElement) {
-                const apiKey = "AIzaSyD5Sj3ypZWlrRg5rPxQl4gbmzUIVRFvMJo"; // User-provided API Key
+                const apiKey = "AIzaSyD5Sj3ypZWlrRg5rPxQl4gbmzUIVRFvMJo"; 
                 const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash-latest:generateContent?key=${apiKey}`;
                 
                 const payload = {
